@@ -1,0 +1,16 @@
+{
+  "name": "rizi",
+  "segmentation": {
+    "type": "mmseg",
+    "dict": {
+      "type": "text",
+      "file": "rizi.txt"
+    }
+  },
+  "conversion_chain": [{
+    "dict": {
+      "type": "text",
+      "file": "rizi.txt"
+    }
+  }]
+}
