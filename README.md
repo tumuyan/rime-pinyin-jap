@@ -28,8 +28,7 @@
 - `jap_poly_nano.schema.yaml`：poly方案文件。有修改  
 
 【lua沪鏡】  
-* `rime.lua` 【融合拼音】使用的lua増強沪鏡。如果其他方案也使用了lua，請打開文件並復制内容粘貼到原rime.lua文件中。
+* `rime.lua` 【融合拼音】和本方案共用的lua増強沪鏡。如果其他方案也使用了lua，請打開文件並復制内容粘貼到原rime.lua文件中。
   
 【編碼沪鏡】（需放置到軟件安装目録的opencc目録） 
 * `rizi` 簡体中文転日語新字形，TRIME群友提供，目測由 https://github.com/BYVoid/OpenCC/blob/master/data/dictionary/JPVariants.txt 転換而来。
-

@@ -47,14 +47,19 @@ patch:
     - uniquifier
     - simplifier@rizi_conversion
     - simplifier@s2t_conversion
+    - lua_filter@jpcharset_filter
 # 默认输入状态为汉字
   "switches/@0/reset": 0
-  "switches/@0/states": [ 漢字, 英文 ]
+  "switches/@0/states": [ 日語, 英文 ]
 # 增加开关
   "switches/@next1": 
     options: [noop, show_rizi, show_s2t]
     reset: 1
-    states: [ 简中,日新,繁中 ]
+    states: [ 简中,新日,繁中 ]
+  "switches/@next2":
+    options: [jpcharset_j, jpcharset_c,noop]
+    states: [ 仮名,漢字,皆彔 ]
+    reset: 1
 # 引入2组编码滤镜
   s2t_conversion:
     opencc_config: s2t.json
@@ -68,7 +73,6 @@ patch:
 # 自定义标点
 # 固定候选单字，在用户目录下创建 pinyin_simp_pin.txt 文件并编辑
   "engine/translators/@next1": table_translator@pinyin_simp_pin
-  "engine/translators/@next2": lua_translator@get_date
 
   pinyin_simp_pin:
     dictionary: ''
