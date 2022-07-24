@@ -49,17 +49,15 @@ patch:
     - simplifier@s2t_conversion
     - lua_filter@jpcharset_filter
 # 默认输入状态为汉字
-  "switches/@0/reset": 0
-  "switches/@0/states": [ 日語, 英文 ]
+  "switches/@0": 
+    options: [jpcharset_j, jpcharset_c,jpcharset,ascii_mode]
+    states: [ 仮名,漢字,日語,英文 ]
+    reset: 1
 # 增加开关
   "switches/@next1": 
     options: [noop, show_rizi, show_s2t]
     reset: 1
     states: [ 简中,新日,繁中 ]
-  "switches/@next2":
-    options: [jpcharset_j, jpcharset_c,noop]
-    states: [ 仮名,漢字,皆彔 ]
-    reset: 1
 # 引入2组编码滤镜
   s2t_conversion:
     opencc_config: s2t.json
