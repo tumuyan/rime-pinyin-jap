@@ -1,25 +1,36 @@
-# Rime schema
+# Rime
 # encoding: utf-8
+#
+# 李さんの日本語入力方法,小李的日本语输入法.
+# (没错,是对学习过新标日小李赴日的neta，適用於基本不懂日語並且也無意深入学習，但是又有一定日語書写的人)
+# 通过加载袖珍简化字拼音方案自定义配置，引用Japanese Poly Nano实现混输中日。和融合拼音（rime_pinyin)共用詞庫，可以使用融合拼音的詞庫覆蓋本方案的文件。
+# 完全忽略音読訓読，使用全拼方式录入汉字，日语中如有对应的汉字自动转换为日语字形。 使用罗马音录入假名，使用x前导可以输入小写，輸入大写字母可以録入片仮名。
+# tumuyan，in 2022.12.25
 
 schema:
   schema_id: pinyin_jap
-  name: 袖珍简化字拼音·镜像
+  name: 李さんの日本語
   version: "0.8"
   author:
     - 佚名
   description: |
     源自 Android 拼音
   dependencies:
-    - stroke
+    - jap_poly_nano
+  keyboard:
+    layout: 9 # 26+10  
+    label: en # 
 
 switches:
-  - name: ascii_mode
-    reset: 0
-    states: [ 中文, 西文 ]
-  - name: full_shape
-    states: [ 半角, 全角 ]
+  - options: [jpcharset_j, jpcharset_c,jpcharset,ascii_mode]
+    states: [ 仮名,漢字,日語,英文 ]
+    reset: 1
+  - options: [noop, show_rizi, show_s2t]
+    reset: 1
+    states: [ 简中,新日,繁中 ]
   - name: ascii_punct
     states: [ 。，, ．， ]
+
 
 engine:
   processors:
@@ -38,12 +49,19 @@ engine:
     - punct_segmentor
     - fallback_segmentor
   translators:
+    - table_translator@jap_poly
     - punct_translator
     - script_translator
     - reverse_lookup_translator
+  filters:
+    - uniquifier
+    - simplifier@rizi_conversion
+    - simplifier@s2t_conversion
+    - lua_filter@jpcharset_filter
 
 speller:
-  alphabet: zyxwvutsrqponmlkjihgfedcba
+  alphabet: zyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA-_
+  initials: zyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA
   delimiter: " '"
   algebra:
     - abbrev/^([a-z]).+$/$1/
@@ -60,26 +78,21 @@ speller:
     - derive/([iu])a(o|ng?)$/a$1$2/
 
 translator:
-  dictionary: pinyin_simp
+  dictionary: pinyin_jap
+  enable_correction: false
   preedit_format:
     - xform/([nl])v/$1ü/
     - xform/([nl])ue/$1üe/
     - xform/([jqxy])v/$1u/
-
-reverse_lookup:
-  dictionary: stroke
-  enable_completion: true
-  prefix: "`"
-  suffix: "'"
-  tips: 〔笔画〕
-  preedit_format:
-    - xlit/hspnz/一丨丿丶乙/
 
 punctuator:
   import_preset: symbols
 
 key_binder:
   import_preset: default
+  bindings:
+    - {accept: minus, send: '-', when: has_menu}
+    - {accept: equal, send: '=', when: has_menu}
 
 recognizer:
   import_preset: default
@@ -89,3 +102,20 @@ recognizer:
     # this change.
     punct: "^/([0-9]+[a-z]*|[a-z]+)$"
     reverse_lookup: "`[a-z]*'?$"
+
+
+jap_poly:
+  dictionary: jap_poly_nano
+  spelling_hints: 9
+  enable_completion: true
+  enable_sentence: true
+  enable_user_dict: false
+  initial_quality: 1
+# 引入2组编码滤镜
+s2t_conversion:
+  opencc_config: s2t.json
+  option_name: show_s2t
+
+rizi_conversion:
+  opencc_config: rizi.json
+  option_name: show_rizi
