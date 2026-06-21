@@ -57,25 +57,23 @@ engine:
     - uniquifier
     - simplifier@rizi_conversion
     - simplifier@s2t_conversion
-    - lua_filter@jpcharset_filter
+    - lua_filter@*melt_jpcharset
 
 speller:
   alphabet: zyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA-_
   initials: zyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA
   delimiter: " '"
   algebra:
-    - abbrev/^([a-z]).+$/$1/
-    - abbrev/^([zcs]h).+$/$1/
-    - derive/^([nl])ue$/$1ve/
-    - derive/^([jqxy])u/$1v/
-    - derive/un$/uen/
-    - derive/ui$/uei/
-    - derive/iu$/iou/
-    - derive/([aeiou])ng$/$1gn/
-    - derive/([dtngkhrzcs])o(u|ng)$/$1o/
-    - derive/ong$/on/
-    - derive/ao$/oa/
-    - derive/([iu])a(o|ng?)$/a$1$2/
+    - "xform/^([A-Z])$/_$1/"
+    - "abbrev/^([zcs]h).+$/$1/"
+    - "derive/^([nl])ue$/$1ve/"
+    - "derive/^([jqxy])u/$1v/"
+    - "derive/([dtngkhrzcs])o(u|ng)$/$1o/"
+    - "derive/^([a-z]+)o(u|ng)$/$1o/"
+    - "derive/ong$/on/"
+    - "derive/^(.+)$/\\L$1/"
+    - "abbrev/^_?([a-zA-Z]).*$/$1/"
+    - "abbrev/^_(.+)$/$1/"
 
 translator:
   dictionary: pinyin_jap
