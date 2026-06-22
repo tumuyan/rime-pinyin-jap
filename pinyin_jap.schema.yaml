@@ -21,6 +21,9 @@ schema:
     layout: 9 # 26+10  
     label: en # 
 
+menu:
+  page_size: 9
+  
 switches:
   - options: [jpcharset_j, jpcharset_c,jpcharset,ascii_mode]
     states: [ 仮名,漢字,日語,英文 ]
